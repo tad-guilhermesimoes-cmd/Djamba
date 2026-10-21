@@ -51,7 +51,7 @@ export const quests: Quest[] = [
     title: "Dragão da API",
     description:
       "Navegue entre telas com Expo Router, enviando o id da missão como parâmetro da rota.",
-    difficulty: "Difícil",
+    difficulty: "Chefe",
     status: "Disponível",
     criteria: [
       "Rotas criadas na pasta app",

@@ -26,9 +26,10 @@ export const fonts = {
 };
 
 export const difficultyColors: Record<Difficulty, string> = {
-  Fácil: colors.green,
+  Fácil: colors.purple,
   Média: colors.orange,
   Difícil: colors.red,
+  Chefe: colors.red,
 };
 
 export const statusColors: Record<QuestStatus, string> = {

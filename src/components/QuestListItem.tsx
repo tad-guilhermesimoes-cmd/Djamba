@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Quest } from "../types/domain";
 import { colors, difficultyColors, fonts, statusColors } from "../theme";
 import { Badge } from "./Badge";
-import { Icon } from "./Icon";
+import { MonsterFace } from "./MonsterFace";
 
 type QuestListItemProps = {
   quest: Quest;
@@ -23,16 +23,15 @@ export function QuestListItem({ quest, onPress }: QuestListItemProps) {
         pressed && styles.pressed,
       ]}
     >
-      <Icon name="mission" size={28} />
+      <MonsterFace color={difficultyColor} />
       <View style={styles.details}>
         <Text style={styles.title} numberOfLines={1}>
           {quest.title}
         </Text>
-        <Text style={styles.metadata}>
-          <Text style={{ color: difficultyColor }}>{quest.difficulty}</Text>
-          {"  "}
+        <View style={styles.metadata}>
+          <Text style={styles.difficulty}>{quest.difficulty}</Text>
           <Text style={styles.xp}>+{quest.reward.xp} XP</Text>
-        </Text>
+        </View>
       </View>
       <Badge label={quest.status} color={statusColors[quest.status]} />
     </Pressable>
@@ -44,25 +43,33 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
-    padding: 14,
-    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    borderRadius: 10,
     borderWidth: 1,
     borderLeftWidth: 4,
     borderColor: colors.border,
     backgroundColor: colors.surface,
   },
   pressed: { opacity: 0.75 },
-  details: { flex: 1, gap: 3 },
+  details: { flex: 1, gap: 4 },
   title: {
     fontFamily: fonts.bold,
     fontSize: 14,
     lineHeight: 18,
     color: colors.text,
   },
-  metadata: {
-    fontFamily: fonts.semibold,
+  metadata: { flexDirection: "row", alignItems: "center", gap: 8 },
+  difficulty: {
+    fontFamily: fonts.regular,
     fontSize: 12,
     lineHeight: 15,
+    color: colors.muted,
   },
-  xp: { color: colors.green },
+  xp: {
+    fontFamily: fonts.bold,
+    fontSize: 12,
+    lineHeight: 15,
+    color: colors.green,
+  },
 });

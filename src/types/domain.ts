@@ -1,6 +1,6 @@
 export type Role = "player" | "master";
 
-export type Difficulty = "Fácil" | "Média" | "Difícil";
+export type Difficulty = "Fácil" | "Média" | "Difícil" | "Chefe";
 
 export type QuestStatus = "Disponível" | "Aceita" | "Enviada";
 

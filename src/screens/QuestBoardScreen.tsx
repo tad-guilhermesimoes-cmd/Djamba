@@ -11,7 +11,12 @@ import { QuestStatus } from "../types/domain";
 
 type Filter = "Todas" | QuestStatus;
 
-const filters: readonly Filter[] = ["Todas", "Disponível", "Aceita", "Enviada"];
+const filters: readonly { value: Filter; label: string }[] = [
+  { value: "Todas", label: "Todas" },
+  { value: "Disponível", label: "Disponíveis" },
+  { value: "Aceita", label: "Aceitas" },
+  { value: "Enviada", label: "Enviadas" },
+];
 
 export function QuestBoardScreen() {
   const [filter, setFilter] = useState<Filter>("Todas");

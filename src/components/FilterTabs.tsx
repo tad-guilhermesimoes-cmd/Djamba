@@ -1,8 +1,13 @@
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import { colors, fonts } from "../theme";
 
+type FilterOption<T extends string> = {
+  value: T;
+  label: string;
+};
+
 type FilterTabsProps<T extends string> = {
-  options: readonly T[];
+  options: readonly FilterOption<T>[];
   value: T;
   onChange: (value: T) => void;
 };
@@ -16,21 +21,23 @@ export function FilterTabs<T extends string>({
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
+      // Sem flexGrow: 0 a lista horizontal estica e ocupa a altura da tela.
+      style={styles.scroll}
       contentContainerStyle={styles.container}
     >
       {options.map((option) => {
-        const selected = option === value;
+        const selected = option.value === value;
 
         return (
           <Pressable
-            key={option}
-            onPress={() => onChange(option)}
+            key={option.value}
+            onPress={() => onChange(option.value)}
             accessibilityRole="tab"
             accessibilityState={{ selected }}
             style={[styles.tab, selected && styles.selected]}
           >
             <Text style={[styles.label, selected && styles.selectedLabel]}>
-              {option}
+              {option.label}
             </Text>
           </Pressable>
         );
@@ -40,7 +47,8 @@ export function FilterTabs<T extends string>({
 }
 
 const styles = StyleSheet.create({
-  container: { gap: 8, paddingHorizontal: 20 },
+  scroll: { flexGrow: 0 },
+  container: { alignItems: "center", gap: 8, paddingHorizontal: 20 },
   tab: {
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -54,5 +62,5 @@ const styles = StyleSheet.create({
     lineHeight: 15,
     color: colors.text,
   },
-  selectedLabel: { color: colors.background },
+  selectedLabel: { fontFamily: fonts.bold, color: colors.background },
 });
