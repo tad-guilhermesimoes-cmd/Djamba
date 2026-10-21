@@ -3,13 +3,13 @@ import { Inter_600SemiBold } from "@expo-google-fonts/inter/600SemiBold";
 import { Inter_700Bold } from "@expo-google-fonts/inter/700Bold";
 import { Inter_800ExtraBold } from "@expo-google-fonts/inter/800ExtraBold";
 import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { colors } from "../../src/theme";
-import { Stack } from "expo-router";
+import { colors } from "../theme";
 
-export default function App() {
+export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
     Inter_400Regular,
     Inter_600SemiBold,
@@ -21,12 +21,18 @@ export default function App() {
     <SafeAreaProvider>
       <StatusBar style="light" />
       {fontsLoaded || fontError ? (
-        <Stack screenOptions={{headerStyle: {},
-          headerTintColor: colors.text,
-          contentStyle: {backgroundColor: colors.background}
-        }}>
-          <Stack.Screen name = "index" options={{ headerShown: false}}/>
-          <Stack.Screen name = "missao/[id]" options={{ title: "missao"}}/>
+        // Cada tela desenha o próprio cabeçalho, então o da Stack fica oculto.
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: colors.background },
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="missoes" />
+          <Stack.Screen name="missao/[id]" />
+          <Stack.Screen name="taverna" />
+          <Stack.Screen name="personagem" />
         </Stack>
       ) : (
         <View style={styles.loading}>

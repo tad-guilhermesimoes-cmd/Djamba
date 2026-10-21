@@ -1,10 +1,9 @@
-import { Text } from "react-native";
-import { colors } from "../../theme";
+import { useLocalSearchParams } from "expo-router";
+import { QuestDetailScreen } from "../../screens/QuestDetailScreen";
 
-export default function MissionDetails() {
-    return (
-        <Text style={{ color: colors.text }}>
-            Detalhes da missão
-        </Text>
-    )
+export default function MissaoRoute() {
+  // O id chega pela URL, ex.: /missao/goblin-das-props
+  const { id } = useLocalSearchParams<{ id: string }>();
+
+  return <QuestDetailScreen questId={id} />;
 }

@@ -1,3 +1,4 @@
+import { Href, router } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { colors, fonts } from "../theme";
 import { Icon } from "./Icon";
@@ -5,36 +6,43 @@ import { Icon } from "./Icon";
 export type MenuSection = "Jornada" | "Missões" | "Taverna" | "Personagem";
 
 type BottomMenuProps = {
-  onSelect: (section: MenuSection) => void;
+  active: MenuSection;
 };
 
 const items = [
-  { label: "Jornada", icon: "journey" },
-  { label: "Missões", icon: "quests" },
-  { label: "Taverna", icon: "tavern" },
-  { label: "Personagem", icon: "character" },
-] as const;
+  { label: "Jornada", icon: "journey", href: "/" },
+  { label: "Missões", icon: "quests", href: "/missoes" },
+  { label: "Taverna", icon: "tavern", href: "/taverna" },
+  { label: "Personagem", icon: "character", href: "/personagem" },
+] as const satisfies readonly {
+  label: MenuSection;
+  icon: string;
+  href: Href;
+}[];
 
-export function BottomMenu({ onSelect }: BottomMenuProps) {
+export function BottomMenu({ active }: BottomMenuProps) {
   return (
     <View style={styles.container}>
-      {items.map((item) => (
-        <Pressable
-          key={item.label}
-          onPress={() => onSelect(item.label)}
-          accessibilityRole="button"
-          accessibilityLabel={item.label}
-          accessibilityState={{ selected: item.label === "Jornada" }}
-          style={({ pressed }) => [styles.item, pressed && styles.pressed]}
-        >
-          <Icon name={item.icon} />
-          <Text
-            style={[styles.label, item.label === "Jornada" && styles.active]}
+      {items.map((item) => {
+        const selected = item.label === active;
+
+        return (
+          <Pressable
+            key={item.label}
+            // navigate reaproveita a tela se ela já estiver na pilha.
+            onPress={() => !selected && router.navigate(item.href)}
+            accessibilityRole="button"
+            accessibilityLabel={item.label}
+            accessibilityState={{ selected }}
+            style={({ pressed }) => [styles.item, pressed && styles.pressed]}
           >
-            {item.label}
-          </Text>
-        </Pressable>
-      ))}
+            <Icon name={item.icon} />
+            <Text style={[styles.label, selected && styles.active]}>
+              {item.label}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }

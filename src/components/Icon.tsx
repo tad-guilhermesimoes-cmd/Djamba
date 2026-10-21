@@ -14,15 +14,18 @@ const icons = {
 
 type IconProps = {
   name: keyof typeof icons;
+  // Sobrescreve o tamanho padrão do ícone quando o layout pede outro.
+  size?: number;
 };
 
-export function Icon({ name }: IconProps) {
+export function Icon({ name, size }: IconProps) {
   const icon = icons[name];
+  const dimension = size ?? icon.size;
 
   return (
     <Image
       source={icon.source}
-      style={{ width: icon.size, height: icon.size }}
+      style={{ width: dimension, height: dimension }}
       contentFit="contain"
       accessible={false}
     />
